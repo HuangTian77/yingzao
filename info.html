@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人信息展示</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft Yahei",sans-serif}
+body{
+    background:#e8f1ff;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+.container{
+    background:#fff;
+    padding:50px 70px;
+    border-radius:16px;
+    box-shadow:0 4px 20px #b8d3f5;
+    text-align:center;
+    width:100%;
+    max-width:400px;
+}
+h2{color:#2052c9;margin-bottom:25px;font-size:24px}
+#login-area input{
+    width:100%;
+    padding:12px 15px;
+    font-size:16px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    margin-bottom:15px;
+    transition:border 0.3s;
+}
+#login-area input:focus{
+    outline:none;
+    border-color:#2052c9;
+}
+#login-area button{
+    width:100%;
+    padding:12px 32px;
+    background:#2052c9;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+    transition:background 0.3s;
+}
+#login-area button:hover{background:#1742aa}
+.error{color:red;height:22px;margin:8px 0;font-size:14px}
+#info-area{display:none}
+.name{font-size:44px;color:#2052c9;margin-bottom:20px;font-weight:bold}
+.stu-id{font-size:28px;color:#333;margin-bottom:10px}
+.logout-btn{
+    margin-top:35px;
+    padding:10px 24px;
+    background:#888;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    transition:background 0.3s;
+}
+.logout-btn:hover{background:#666}
+</style>
+</head>
+<body>
+<div class="container">
+    <div id="login-area">
+        <h2>请输入访问密码</h2>
+        <input type="password" id="pwd" placeholder="请输入密码">
+        <div class="error" id="err"></div>
+        <button onclick="login()">登录查看信息</button>
+    </div>
+
+    <div id="info-area">
+        <div class="name" id="myname"></div>
+        <div class="stu-id" id="myid"></div>
+        <button class="logout-btn" onclick="logout()">退出登录</button>
+    </div>
+</div>
+
+<script>
+// ========== 自定义信息区域 ==========
+const pass = "123456";        // 修改访问密码
+const name = "聂東杨";          // 修改姓名
+const stuId = "P20250306032";  // 修改学号
+// ===================================
+
+const loginBox = document.getElementById("login-area");
+const infoBox = document.getElementById("info-area");
+const errText = document.getElementById("err");
+const pwdInput = document.getElementById("pwd");
+
+// 预先填充个人信息
+document.getElementById("myname").innerText = name;
+document.getElementById("myid").innerText = "学号：" + stuId;
+
+// 页面加载读取本地登录状态
+window.onload = () => {
+    if(localStorage.getItem("loginOk") === "yes"){
+        showInfo();
+    }
+}
+
+// 回车快捷登录
+pwdInput.addEventListener("keydown", (e) => {
+    if(e.key === "Enter") login();
+})
+
+function login(){
+    let input = pwdInput.value.trim();
+    if(input === ""){
+        errText.innerText = "请输入密码";
+        return;
+    }
+    if(input === pass){
+        localStorage.setItem("loginOk","yes");
+        errText.innerText = "";
+        showInfo();
+    }else{
+        errText.innerText = "密码错误，请重新输入";
+    }
+}
+
+function showInfo(){
+    loginBox.style.display = "none";
+    infoBox.style.display = "block";
+}
+
+function logout(){
+    localStorage.removeItem("loginOk");
+    loginBox.style.display = "block";
+    infoBox.style.display = "none";
+    pwdInput.value = "";
+    errText.innerText = "";
+}
+</script>
+</body>
+</html>
