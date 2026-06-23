@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>营造美学 — 中国古建筑鉴赏</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  :root {
+    --bg: #000000;
+    --bg-card: #0C0C0C;
+    --bg-elevated: #18181B;
+    --bg-surface: #27272A;
+    --fg: #FAFAFA;
+    --fg-muted: #94A3B8;
+    --accent: #F8FAFC;
+    --accent-warm: #C9A050;
+    --border: #3F3F46;
+    --muted: #181818;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+  }
+  
+  html { scroll-behavior: smooth; background: var(--bg); }
+  
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 80px; }
+  
+  /* === HEADER === */
+  .header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 80px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+  }
+  .header-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 100%; max-width: 1280px; margin: 0 auto; padding: 0 80px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-dot {
+    width: 8px; height: 8px; border-radius: 50%;     background: var(--accent-warm);
+    box-shadow: 0 0 12px rgba(201, 160, 80, 0.4);
+  }
+  .logo-text {
+    font-family: var(--font-display); font-size: 22px; font-weight: 700;
+    letter-spacing: 0.04em; color: var(--fg);
+  }
+  .nav-links { display: flex; gap: 48px; }
+  .nav-links a {
+    font-size: 13px; color: var(--fg-muted); text-decoration: none;
+    font-weight: 400; letter-spacing: 0.02em;
+    transition: color 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--fg); }
+  .btn-header {
+    display: inline-flex; align-items: center; padding: 10px 24px;
+    background: var(--accent); color: #050505;
+    font-size: 13px; font-weight: 500; text-decoration: none;
+    letter-spacing: 0.01em; transition: all 0.3s ease;
+  }
+  .btn-header:hover { background: rgba(248, 250, 252, 0.85); }
+  
+  /* === HERO === */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    padding-top: 80px; position: relative; overflow: hidden;
+  }
+  .hero-bg-glow {
+    position: absolute; width: 600px; height: 600px;
+    border-radius: 50%; filter: blur(120px); opacity: 0.08;
+    pointer-events: none;
+  }
+  .hero-glow-1 { background: #F8FAFC; top: -200px; right: -100px; }
+  .hero-glow-2 { background: #C9A050; bottom: -200px; left: -100px; opacity: 0.06; }
+  
+  .hero-content { position: relative; z-index: 2; }
+  .hero-label {
+    display: inline-block; padding: 6px 16px;
+    border: 0.5px solid rgba(255, 255, 255, 0.12);
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--fg-muted); margin-bottom: 40px;
+  }
+  .hero-title {
+    font-family: var(--font-display); font-size: 88px; font-weight: 600;
+    line-height: 1.05; letter-spacing: -0.02em; color: var(--fg);
+    margin-bottom: 28px; max-width: 720px;
+  }
+  .hero-title em { font-style: italic; font-weight: 400; }
+  .hero-subtitle {
+    font-size: 20px; color: var(--fg-muted); font-weight: 300;
+    max-width: 560px; line-height: 1.7; margin-bottom: 48px;
+  }
+  .hero-ctas { display: flex; gap: 20px; align-items: center; }
+  .btn-primary {
+    display: inline-flex; align-items: center; padding: 16px 36px;
+    background: var(--accent); color: #050505;
+    font-size: 15px; font-weight: 500; text-decoration: none;
+    letter-spacing: 0.01em; transition: all 0.3s ease;
+  }
+  .btn-primary:hover { background: rgba(248, 250, 252, 0.85); transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; padding: 15px 0;
+    color: var(--fg-muted); font-size: 15px; font-weight: 400;
+    text-decoration: none; letter-spacing: 0.01em;
+    border-bottom: 1px solid var(--border); transition: all 0.3s ease;
+  }
+  .btn-secondary:hover { color: var(--fg); border-color: var(--fg); }
+  
+  .hero-visual {
+    position: absolute; right: 80px; top: 50%; transform: translateY(-50%);
+    width: 420px; height: 560px; z-index: 2;
+  }
+  .hero-image-frame {
+    width: 100%; height: 100%; background: var(--bg-card);
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; position: relative;
+  }
+  .hero-image-placeholder {
+    width: 100%; height: 100%; display: flex; align-items: center;
+    justify-content: center; position: relative;
+    background-image: url('images/Chinese_ancient_temple_roof_si_2026-06-23T08-59-34.png');
+    background-size: cover;
+    background-position: center;
+  }
+  .hero-image-inner {
+    font-family: var(--font-display); font-size: 18px; font-style: italic;
+    color: rgba(248, 250, 252, 0.15); text-align: center; padding: 40px;
+  }
+  
+  .hero-scroll-hint {
+    position: absolute; bottom: 48px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    z-index: 2;
+  }
+  .scroll-line {
+    width: 0.5px; height: 48px; background: rgba(255, 255, 255, 0.15);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.4; }
+  }
+  
+  /* === ABOUT === */
+  .about {
+    padding: 160px 0; position: relative;
+  }
+  .section-label {
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--fg-muted); margin-bottom: 16px;
+  }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 120px;
+  }
+  .about-intro-title {
+    font-family: var(--font-display); font-size: 40px; font-weight: 500;
+    line-height: 1.3; color: var(--fg); margin-bottom: 32px;
+  }
+  .about-intro-text {
+    font-size: 16px; color: var(--fg-muted); line-height: 1.8;
+    font-weight: 300;
+  }
+  .about-intro-text + .about-intro-text { margin-top: 24px; }
+  
+  .skills-list { display: flex; flex-direction: column; gap: 32px; }
+  .skill-item { border-bottom: 0.5px solid rgba(255, 255, 255, 0.06); padding-bottom: 24px; }
+  .skill-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .skill-name {
+    font-family: var(--font-display); font-size: 20px; color: var(--fg); font-weight: 500;
+  }
+  .skill-pct { font-size: 13px; color: var(--fg-muted); }
+  .skill-desc { font-size: 14px; color: var(--fg-muted); font-weight: 300; margin-top: 4px; }
+  
+  /* === PROJECTS === */
+  .projects { padding: 0 0 160px 0; }
+  .projects-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 64px; }
+  .projects-title {
+    font-family: var(--font-display); font-size: 56px; font-weight: 500; color: var(--fg);
+    letter-spacing: -0.02em;
+  }
+  .project-count { font-size: 14px; color: var(--fg-muted); }
+  
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .project-card {
+    background: var(--bg-card); border: 0.5px solid rgba(255, 255, 255, 0.06);
+    position: relative; overflow: hidden; transition: all 0.4s ease;
+    cursor: pointer;
+  }
+  .project-card:hover { border-color: rgba(255, 255, 255, 0.12); }
+  .project-card:nth-child(1) { grid-column: 1 / 3; }
+  
+  .project-image {
+    width: 100%; height: 320px; position: relative; overflow: hidden;
+  }
+  .project-card:nth-child(1) .project-image { height: 440px; }
+  .project-img-fill {
+    width: 100%; height: 100%; position: relative;
+    background-size: cover;
+    background-position: center;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .project-img-label {
+    font-family: var(--font-display); font-size: 15px; font-style: italic;
+    color: rgba(248, 250, 252, 0.1); letter-spacing: 0.04em;
+  }
+  
+  .project-info { padding: 28px 32px; }
+  .project-meta { display: flex; gap: 16px; margin-bottom: 12px; }
+  .project-tag {
+    font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--fg-muted); padding: 4px 10px;
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+  }
+  .project-name {
+    font-family: var(--font-display); font-size: 24px; color: var(--fg);
+    margin-bottom: 8px; font-weight: 500;
+  }
+  .project-desc {
+    font-size: 14px; color: var(--fg-muted); line-height: 1.7; font-weight: 300;
+  }
+  .project-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 16px; font-size: 13px; color: var(--fg-muted);
+    text-decoration: none; transition: all 0.3s ease;
+    padding-bottom: 4px; border-bottom: 1px solid transparent;
+  }
+  .project-link:hover { color: var(--fg); border-color: var(--fg); }
+  
+  /* === FOOTER === */
+  .footer {
+    border-top: 0.5px solid rgba(255, 255, 255, 0.06);
+    padding: 80px 0 48px; position: relative;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px; margin-bottom: 80px;
+  }
+  .footer-brand-logo {
+    font-family: var(--font-display); font-size: 22px; font-weight: 700;
+    letter-spacing: 0.04em; margin-bottom: 16px; color: var(--fg);
+  }
+  .footer-brand-desc {
+    font-size: 14px; color: var(--fg-muted); line-height: 1.7;
+    max-width: 280px; font-weight: 300;
+  }
+  .footer-col-title {
+    font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--fg-muted); margin-bottom: 24px; font-weight: 500;
+  }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .footer-links a {
+    font-size: 14px; color: var(--fg-muted); text-decoration: none;
+    transition: color 0.3s ease; font-weight: 300;
+  }
+  .footer-links a:hover { color: var(--fg); }
+  
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 32px; border-top: 0.5px solid rgba(255, 255, 255, 0.06);
+  }
+  .footer-copy { font-size: 13px; color: var(--fg-muted); }
+  .footer-social { display: flex; gap: 20px; }
+  .footer-social span, .footer-social a {
+    font-size: 13px; color: var(--fg-muted); font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+  .footer-social a:hover { color: var(--fg); }
+  
+  /* === ANIMATIONS === */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(32px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-in { animation: fadeUp 0.8s ease-out forwards; }
+  .delay-1 { animation-delay: 0.1s; opacity: 0; }
+  .delay-2 { animation-delay: 0.25s; opacity: 0; }
+  .delay-3 { animation-delay: 0.4s; opacity: 0; }
+  
+  @media (max-width: 1024px) {
+    .container, .header-inner { padding: 0 40px; }
+    .hero-title { font-size: 56px; }
+    .hero-visual { right: 40px; width: 300px; height: 420px; }
+    .about-grid { grid-template-columns: 1fr; gap: 60px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card:nth-child(1) { grid-column: 1; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero-title { font-size: 40px; }
+    .hero-visual { display: none; }
+    .hero-subtitle { font-size: 16px; }
+    .projects-title { font-size: 36px; }
+    .project-card:nth-child(1) .project-image { height: 280px; }
+    .project-image { height: 220px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-dot"></div>
+      <span class="logo-text">营造</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#hero">首页</a>
+      <a href="#about">关于</a>
+      <a href="#projects">巡礼</a>
+      <a href="#footer">联系</a>
+    </nav>
+    <a href="#projects" class="btn-header">开始巡礼</a>
+  </div>
+</header>
+
+<section id="hero" class="hero">
+  <div class="hero-bg-glow hero-glow-1"></div>
+  <div class="hero-bg-glow hero-glow-2"></div>
+  
+  <div class="container hero-content">
+    <span class="hero-label">中国古建筑 · 美学鉴赏</span>
+    <h1 class="hero-title animate-in delay-1">
+      千年<em>营造</em><br>一木一石皆文章
+    </h1>
+    <p class="hero-subtitle animate-in delay-2">
+      一座关于中国古建筑的美学档案——从唐代木构到明清园林，以镜头与文字记录那些沉默于时光中的营造智慧。斗拱藏着力学，飞檐托起天空。
+    </p>
+    <div class="hero-ctas animate-in delay-3">
+      <a href="#projects" class="btn-primary">开启巡礼</a>
+      <a href="#about" class="btn-secondary">了解理念</a>
+    </div>
+  </div>
+  
+  <div class="hero-visual">
+    <div class="hero-image-frame">
+      <div class="hero-image-placeholder">
+        <p class="hero-image-inner">
+          鳞次栉比<br>飞檐斗拱<br>千年一瞬
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="hero-scroll-hint">
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<section id="about" class="about">
+  <div class="container">
+    <p class="section-label">关于</p>
+    <div class="about-grid">
+      <div>
+        <h2 class="about-intro-title">
+          与古建的凝视<br>相伴终身
+        </h2>
+        <p class="about-intro-text">
+          十余年间，我行走于山西、河北、河南、江南——追寻那些穿越千年的木构建筑。从佛光寺的雄浑斗拱到应县木塔的凌云之势，从晋祠的宋韵流觞到皖南的徽派民居，每一处古迹都是一部用木材与石头写就的史书。
+        </p>
+        <p class="about-intro-text">
+          我相信一座古建筑不只属于建筑史——它是一把打开时间的钥匙。当手指拂过千年前的木纹，当目光穿过层层斗拱看见天光，你便与那些无名匠人完成了跨越时空的对话。我的使命是记录、解读、分享这份属于中国人的营造智慧。
+        </p>
+      </div>
+      <div class="skills-list">
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">木构研究</span>
+            <span class="skill-pct">首要</span>
+          </div>
+          <p class="skill-desc">唐构、辽构、宋元遗构的实地考察与结构分析</p>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">彩画纹样</span>
+            <span class="skill-pct">核心</span>
+          </div>
+          <p class="skill-desc">历代建筑彩画辨识、纹样复原与工艺记录</p>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">石窟寻访</span>
+            <span class="skill-pct">核心</span>
+          </div>
+          <p class="skill-desc">从云冈到龙门，石窟寺建筑形制与造像艺术</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="projects">
+  <div class="container">
+    <p class="section-label">巡礼</p>
+    <div class="projects-header">
+      <h2 class="projects-title">精选古建</h2>
+      <span class="project-count">已实地考察 30+ 处全国重点文物保护单位</span>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-image">
+          <div class="project-img-fill" style="background-image: url('images/Foguang_Temple_East_Hall__Tang_2026-06-23T08-59-34.png')">
+            <span class="project-img-label">佛光寺东大殿 — 唐大中十一年 · 公元857年</span>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-meta">
+            <span class="project-tag">唐代木构</span>
+            <span class="project-tag">山西五台</span>
+          </div>
+          <h3 class="project-name">佛光寺东大殿</h3>
+          <p class="project-desc">中国现存规模最大、保存最完整的唐代木构建筑。梁思成谓之"中国第一国宝"，雄浑的七铺作双杪双下昂斗拱撑起千年屋脊。</p>
+          <a href="#" class="project-link">查看巡礼 &rarr;</a>
+        </div>
+      </div>
+      
+      <div class="project-card">
+        <div class="project-image">
+          <div class="project-img-fill" style="background-image: url('images/Yingxian_Wooden_Pagoda__Liao_d_2026-06-23T08-59-33.png')">
+            <span class="project-img-label">应县木塔 — 辽清宁二年 · 公元1056年</span>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-meta">
+            <span class="project-tag">辽代木塔</span>
+            <span class="project-tag">山西应县</span>
+          </div>
+          <h3 class="project-name">应县木塔</h3>
+          <p class="project-desc">世界现存最高、最古老的纯木构塔式建筑。五明四暗共九层，五十四种斗拱交相辉映，堪称木结构工程的巅峰之作。</p>
+          <a href="#" class="project-link">查看巡礼 &rarr;</a>
+        </div>
+      </div>
+      
+      <div class="project-card">
+        <div class="project-image">
+          <div class="project-img-fill" style="background-image: url('images/Forbidden_City_corner_tower__B_2026-06-23T08-59-33.png')">
+            <span class="project-img-label">故宫角楼 — 明永乐十八年 · 公元1420年</span>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-meta">
+            <span class="project-tag">明清宫式</span>
+            <span class="project-tag">北京</span>
+          </div>
+          <h3 class="project-name">故宫角楼</h3>
+          <p class="project-desc">九梁十八柱、七十二条脊——中国木构建筑复杂之美的极致体现。十字脊四面歇山，层层出檐如翚斯飞。</p>
+          <a href="#" class="project-link">查看巡礼 &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="footer" class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-brand-logo">营造</div>
+        <p class="footer-brand-desc">
+          中国古建筑美学鉴赏档案。以镜头与文字守护千年营造智慧——从一榫一卯中，读懂中国人的空间诗学。
+        </p>
+      </div>
+      <div>
+        <p class="footer-col-title">建筑类型</p>
+        <ul class="footer-links">
+          <li><a href="#">木构殿堂</a></li>
+          <li><a href="#">塔与经幢</a></li>
+          <li><a href="#">石窟寺</a></li>
+          <li><a href="#">园林</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">关于</p>
+        <ul class="footer-links">
+          <li><a href="#">营造理念</a></li>
+          <li><a href="#">巡礼路线</a></li>
+          <li><a href="#">学术文章</a></li>
+          <li><a href="#">联系</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">关注</p>
+        <ul class="footer-links">
+          <li><a href="#">微博</a></li>
+          <li><a href="#">豆瓣</a></li>
+          <li><a href="#">知乎</a></li>
+          <li><a href="#">邮箱</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2026 营造美学。保留所有权利。</span>
+      <div class="footer-social">
+        <span>作者 聂東杨</span>
+        <span>学号 P20250306032</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
